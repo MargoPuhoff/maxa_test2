@@ -1,0 +1,36 @@
+services:
+  db:
+    image: arm64v8/postgres:15
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: maxa
+      POSTGRES_USER: postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  rails:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      RACK_ENV: development
+      RAILS_ENV: development
+      RAILS_SERVE_STATIC_FILES: true
+      POSTGRES_DB: maxa
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    command: ["./bin/rails", "server", "-b", "0.0.0.0"]
+
+volumes:
+  pg_data:
+    external: true

@@ -20,28 +20,12 @@ class FilePdfsController < ApplicationController
       return
     end
 
-    @file_pdf = FilePdf.new(file_pdf_params)
+    result = FilePdfs::CreateService.new(params).call
 
-    if @file_pdf.save
-      begin
-        @file_pdf.convert_to_pdf
-
-        if @file_pdf.converted_pdf.attached?
-          render json: {
-            id: @file_pdf.id,
-            pdf_url: url_for(@file_pdf.converted_pdf),
-            original_filename: @file_pdf.original_filename,
-            message: 'Conversion completed'
-          }, status: :created
-        else
-          render json: { error: 'Conversion error' }, status: :unprocessable_entity
-        end
-
-      rescue => e
-        render json: { error: "Conversion error: #{e.message}" }, status: :unprocessable_entity
-      end
+    if result[:success]
+      render json: result[:file_pdf], status: :created
     else
-      render json: @file_pdf.errors, status: :unprocessable_entity
+      render json: result[:errors], status: :unprocessable_entity
     end
   end
 

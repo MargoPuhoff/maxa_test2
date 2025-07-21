@@ -6,6 +6,7 @@ RUN apt-get update -qq && \
     build-essential \
     libpq-dev \
     postgresql-client \
+    librsvg2-bin \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

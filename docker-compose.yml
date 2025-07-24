@@ -33,6 +33,19 @@ services:
       - "3000:3000"
     command: ["./bin/rails", "server", "-b", "0.0.0.0"]
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    # volumes:
+    #   - ./frontend:/app
+    ports:
+      - "5173:5173"
+    depends_on:
+      - rails
+    environment:
+      - NODE_ENV=development
+
 volumes:
   pg_data:
     external: true

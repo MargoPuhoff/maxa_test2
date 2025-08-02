@@ -20,10 +20,13 @@ class FilePdfsController < ApplicationController
       return
     end
 
-    result = FilePdfs::CreateService.new(params).call
+    result = FilePdfs::CreateService.new(file_pdf_params).call
 
     if result[:success]
-      render json: result[:file_pdf], status: :created
+      send_data result[:file_pdf].converted_pdf.download,
+                filename: result[:file_pdf].converted_pdf.filename.to_s,
+                type: result[:file_pdf].converted_pdf.content_type,
+                disposition: 'attachment'
     else
       render json: result[:errors], status: :unprocessable_entity
     end

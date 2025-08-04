@@ -40,11 +40,10 @@
       const formData = new FormData()
       formData.append('file_pdf[original_file]', selectedFile.value)
 
-      const backendHost = import.meta.env.VITE_BACKEND_HOST
-      const response = await fetch(`${backendHost}/file_pdfs`, {
+      const response = await fetch(`//${window.location.hostname}:3000/file_pdfs`, {
         method: 'POST',
         body: formData
-      })
+      });
 
       if (response.ok) {
         const contentDisposition = response.headers.get('Content-Disposition')

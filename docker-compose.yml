@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:15
     environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: maxa
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
     volumes:
       - pg_data:/var/lib/postgresql/data
     ports:
@@ -18,16 +18,17 @@ services:
         - linux/amd64
         - linux/arm64
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      RACK_ENV: development
-      RAILS_ENV: development
-      RAILS_SERVE_STATIC_FILES: true
-      POSTGRES_DB: maxa
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      USER_ID: 1000
-      GROUP_ID: 1000
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      RACK_ENV: ${RACK_ENV}
+      RAILS_ENV: ${RAILS_ENV}
+      RAILS_SERVE_STATIC_FILES: ${RAILS_SERVE_STATIC_FILES}
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      USER_ID: ${USER_ID}
+      GROUP_ID: ${GROUP_ID}
     volumes:
       - ./backend:/rails
     depends_on:
@@ -51,7 +52,7 @@ services:
     depends_on:
       - rails
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV}
 
 volumes:
   pg_data:

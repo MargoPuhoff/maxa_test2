@@ -40,7 +40,8 @@
       const formData = new FormData()
       formData.append('file_pdf[original_file]', selectedFile.value)
 
-      const response = await fetch('http://localhost:3000/file_pdfs', {
+      const backendHost = import.meta.env.VITE_BACKEND_HOST
+      const response = await fetch(`${backendHost}/file_pdfs`, {
         method: 'POST',
         body: formData
       })

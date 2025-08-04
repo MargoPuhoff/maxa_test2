@@ -53,6 +53,7 @@ services:
       - rails
     environment:
       - NODE_ENV=${NODE_ENV}
+      - VITE_BACKEND_HOST=${BACKEND_HOST}
 
 volumes:
   pg_data:

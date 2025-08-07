@@ -24,6 +24,6 @@ test:
 
 production:
   <<: *default
-  database: backend_production
-  username: backend
-  password: <%= ENV["BACKEND_DATABASE_PASSWORD"] %>
+  database: <%= ENV.fetch("POSTGRES_DB") { "maxa" } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "postgres" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
